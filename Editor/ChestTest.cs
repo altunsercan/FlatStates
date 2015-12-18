@@ -59,12 +59,16 @@ public class ChestTest{
 
 		Weapon sword = new Weapon ("weapon01","Iron Sword", 10);
 		sword.TermDispatcher.Subscribe (container.ChangeListener);
+		sword.Broadcast();
 
+		Weapon sword2 = new Weapon ("weapon02","Silver Sword", 10);
+		sword.TermDispatcher.Subscribe (container.ChangeListener);
 		sword.Broadcast();
 
 		Item shield = new Item ("shield01","Wooden Roundshield", 3);
 
 		chest.AddItem (sword);
+		chest.AddItem (sword2);
 		chest.AddItem (shield);
 
 		List<Predicate> queryPredicates = new List<Predicate> ();
