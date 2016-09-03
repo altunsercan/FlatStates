@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace ninja.marching.flatstates
 {
-	public class PredicateChangeDispatcher:IObservable<PredicateChangeEvent>
+	public class AxiomChangeDispatcher:IObservable<PredicateChangeEvent>
 	{
 		private List<IObserver<PredicateChangeEvent>> observers;
 
-		public PredicateChangeDispatcher (out Action<Predicate,bool> PublishChange)
+		public AxiomChangeDispatcher (out Action<Axiom,bool> PublishChange)
 		{
 			observers = new List<IObserver<PredicateChangeEvent>> ();
 
@@ -17,7 +17,7 @@ namespace ninja.marching.flatstates
 		}
 
 
-		private void Publish(Predicate term, bool add)
+		private void Publish(Axiom term, bool add)
 		{
 			var enumerator = observers.GetEnumerator ();
 		
@@ -48,7 +48,7 @@ namespace ninja.marching.flatstates
 
 	public struct PredicateChangeEvent
 	{
-		public Predicate term;
+		public Axiom term;
 		public bool added;
 	}
 }

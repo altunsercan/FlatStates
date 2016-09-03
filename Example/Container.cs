@@ -4,14 +4,15 @@ using System.Collections.Generic;
 
 namespace  ninja.marching.flatstates
 {
+
 	public class Container:IBindable<Container>
 	{
 		public readonly string Identifier;
 
 		public readonly string Name;
 
-		public PredicateChangeDispatcher TermDispatcher;
-		private Action<Predicate,bool> Dispatch;
+		public AxiomChangeDispatcher TermDispatcher;
+		private Action<Axiom,bool> Dispatch;
 
 		private List<Item> itemList;
 
@@ -22,7 +23,7 @@ namespace  ninja.marching.flatstates
 			Name = name;
 
 			itemList = new List<Item> ();
-			TermDispatcher = new PredicateChangeDispatcher (out Dispatch);
+			TermDispatcher = new AxiomChangeDispatcher (out Dispatch);
 		}
 
 		public void AddItem(Item item)
