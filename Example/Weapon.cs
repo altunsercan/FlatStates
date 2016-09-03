@@ -4,13 +4,13 @@ namespace ninja.marching.flatstates
 {
 	public class Weapon:Item
 	{
-		public PredicateChangeDispatcher TermDispatcher;
-		private Action<Predicate,bool> Dispatch;
+		public AxiomChangeDispatcher TermDispatcher;
+		private Action<Axiom,bool> Dispatch;
 
 
 		public Weapon (string identifier, string name, int basePrice):base(identifier,name,basePrice)
 		{
-			TermDispatcher = new PredicateChangeDispatcher (out Dispatch);
+			TermDispatcher = new AxiomChangeDispatcher (out Dispatch);
 		}
 
 		public void Broadcast()

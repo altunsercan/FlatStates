@@ -7,13 +7,13 @@ using System.Collections.Generic;
 
 
 namespace ninja.marching.flatstates{
-	public class Predicate {
+	public class Axiom {
 
 		public readonly string Name;
 		public readonly Term[] Terms;
 		public readonly Type[] Types;	
 
-		public Predicate(string name, Type[] types, params object[] terms)
+		public Axiom(string name, Type[] types, params object[] terms)
 		{
 			Name = name;
 
@@ -29,23 +29,23 @@ namespace ninja.marching.flatstates{
 			}
 		}
 
-		public static Predicate Substitute( Predicate predicate, Substitution substitution )
+		public static Axiom ApplySubstitution( Axiom axiom, Substitution substitution )
 		{ 
 			List<object> args = new List<object> ();
-			for (int termIndex = 0; termIndex < predicate.Terms.Length; termIndex++) {
+			for (int termIndex = 0; termIndex < axiom.Terms.Length; termIndex++) {
 
-				if (substitution.original == predicate.Terms [termIndex]) {
+				if (substitution.original == axiom.Terms [termIndex]) {
 					args.Add ( substitution.substituted.ValueObject );
 				} else {
-					args.Add ( predicate.Terms [termIndex].ValueObject );
+					args.Add ( axiom.Terms [termIndex].ValueObject );
 				}
 
 			}
 
-			return (Predicate)Activator.CreateInstance(predicate.GetType (), args.ToArray ());
+			return (Axiom)Activator.CreateInstance(axiom.GetType (), args.ToArray ());
 		}
 
-		public static List<Substitution> Unify( Predicate p1, Predicate p2 )
+		public static List<Substitution> Unify( Axiom p1, Axiom p2 )
 		{
 			if (p1.Name != p2.Name) {
 				return null;
@@ -85,9 +85,9 @@ namespace ninja.marching.flatstates{
 
 	}
 
-	public class PredicateEqualityComparer : IEqualityComparer<Predicate>
+	public class AxiomEqualityComparer : IEqualityComparer<Axiom>
 	{
-		public bool Equals (Predicate x, Predicate y)
+		public bool Equals (Axiom x, Axiom y)
 		{ 
 			if (x.Name != y.Name || x.Terms.Length != y.Terms.Length)
 				return false;
@@ -101,7 +101,7 @@ namespace ninja.marching.flatstates{
 			return true; 
 		}
 
-		public int GetHashCode(Predicate x)
+		public int GetHashCode(Axiom x)
 		{
 			var hash = x.Name.GetHashCode ();
 			for (int i = 0; i < x.Terms.Length; i++) {

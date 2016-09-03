@@ -6,7 +6,7 @@ namespace ninja.marching.flatstates
 {
 	public class Query
 	{
-		List<Predicate> termsToSearch;
+		List<Axiom> termsToSearch;
 		List<Substitution> substitutionsAdded;
 		List<List<Substitution>> solutions;
 

@@ -118,10 +118,6 @@ namespace ninja.marching.flatstates
 
 	public class Term<T>:Term
 	{
-		
-		public T Value;
-		public Binding<T> Binding;
-
 		public Term(IBindable<T> value):base(typeof(IBindable<T>), value)
 		{
 		}
