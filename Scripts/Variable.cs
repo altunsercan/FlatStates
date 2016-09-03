@@ -3,8 +3,8 @@
 namespace ninja.marching.flatstates
 {
 
-	public class Binding:IBindable<Binding>
-	{
+	public abstract class Variable//:Bindable<Binding>
+    {
 		private string Identifier;
 
 		protected Type ValueType;
@@ -13,7 +13,7 @@ namespace ninja.marching.flatstates
 			return ValueType;
 		}
 
-		public Binding (Type valueType, string identifier)
+		public Variable(Type valueType, string identifier)
 		{
 			Identifier = identifier;
 			ValueType = valueType;
@@ -36,13 +36,13 @@ namespace ninja.marching.flatstates
 
 	}
 
-	public class Binding<T>:Binding,IBindable<T>
+	public class Variable<T>: Variable, Bindable<T>
 	{
 		
-		public Binding (string identifier):base( typeof(T), identifier)
+		public Variable (string identifier):base( typeof(T), identifier)
 		{
 		}
-			
-	}
+        
+    }
 }
 

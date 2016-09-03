@@ -16,13 +16,6 @@ namespace ninja.marching.flatstates
 			stateList = new HashSet<Axiom>(new AxiomEqualityComparer());
 		    axiomNameLookup = stateList.ToLookup(a => a.Name);
 		}
-      
-		private struct QuerySearchNode
-		{
-			List<Substitution> substitutions;
-			List<Axiom> terms;
-		}
-
 
         public void Add(Axiom axiom)
         {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace  ninja.marching.flatstates
 {
 
-	public class Container:IBindable<Container>
+	public class Container:Bindable<Container>
 	{
 		public readonly string Identifier;
 

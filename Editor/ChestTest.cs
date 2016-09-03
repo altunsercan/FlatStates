@@ -31,7 +31,7 @@ public class ChestTest{
 		chest.AddItem (shield);
 
 		List<Axiom> queryPredicates = new List<Axiom> ();
-		queryPredicates.Add (new ContainsItem (new Binding<Container> ("ChestToFind"), sword));
+		queryPredicates.Add (new ContainsItem ("?ChestToFind", sword));
 
 		List<List<Substitution>> subset;
 		if (Unification.Query (container, queryPredicates, out subset)) {
@@ -76,7 +76,7 @@ public class ChestTest{
 		chest.AddItem (shield);
 
 		List<Axiom> queryPredicates = new List<Axiom> ();
-		var itemToFind = new Binding<Item> ("ItemToFind");
+		var itemToFind = new Variable<Item> ("ItemToFind");
 		queryPredicates.Add (new ContainsItem (chest, itemToFind));
 		queryPredicates.Add (new IsWeapon (itemToFind) );
 

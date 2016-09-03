@@ -4,10 +4,10 @@ namespace ninja.marching.flatstates
 {
 	public class ContainsItem:Axiom
 	{
-		public readonly IBindable<Container> Container;
-		public readonly IBindable<Item> Item;
-		public ContainsItem (IBindable<Container> container, IBindable<Item> item):
-		base("ContainsItem", new Type[]{typeof(Container),typeof(Item)}, container, item)
+		public readonly Term<Container> Container;
+		public readonly Term<Item> Item;
+		public ContainsItem (Term<Container> container, Term<Item> item):
+		base("ContainsItem", container, item)
 		{
 			Container = container;
 			Item = item;

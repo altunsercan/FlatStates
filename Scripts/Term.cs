@@ -15,12 +15,12 @@ namespace ninja.marching.flatstates
 		public STATUS Status{ get{ return internalStatus; }}
 		protected STATUS internalStatus;
 
-		public readonly object ValueObject;
+		public readonly Bindable ValueObject;
 		public readonly Type ValueType;
 
-		protected Term(Type valueType, object valueObject)
+		protected Term(Type valueType, Bindable valueObject)
 		{
-			if (valueObject is Binding) {
+			if (valueObject is Variable) {
 				internalStatus = STATUS.UNBOUND;
 			}else{
 				internalStatus = STATUS.BOUND;
@@ -30,7 +30,7 @@ namespace ninja.marching.flatstates
 			ValueObject = valueObject;
 		}
 
-		public Substitution Unify(Term other)
+        public Substitution Unify(Term other)
 		{
 			//Debug.Log ("Unifying Terms: " + this + " " + other);
 
@@ -116,11 +116,49 @@ namespace ninja.marching.flatstates
 
 	}
 
-	public class Term<T>:Term
-	{
-		public Term(IBindable<T> value):base(typeof(IBindable<T>), value)
+	public class Term<T>:Term where T:Bindable<T>
+    {
+		public Term(Bindable<T> value):base(typeof(Bindable<T>), value)
 		{
 		}
 
-	}
+        public static implicit operator Term<T>(String strDef) 
+        {
+            if (strDef.StartsWith("?"))
+            {
+                string varName = strDef.Substring(1);
+                Variable<T> variable = new Variable<T>(varName);
+                
+                return new Term<T>(variable);
+            }
+
+            BindableIdentityProxy<T> identifier = new BindableIdentityProxy<T>(strDef);
+
+            return new Term<T>(identifier);
+        }
+
+        public static implicit operator Term<T>(T bindable)
+        {
+            return new Term<T>(bindable);
+        }
+
+        public static implicit operator Term<T>(Variable<T> variable)
+        {
+            return new Term<T>(variable);
+        }
+    }
+
+    public class BindableIdentityProxy<T>:Bindable<T> where T : Identifiable,Bindable<T>
+    {
+        private string _identifier;
+        public BindableIdentityProxy(string identifier)
+        {
+            _identifier = identifier;
+        }
+
+        public string UniqueID
+        {
+            get { return _identifier; }
+        }
+    }
 }

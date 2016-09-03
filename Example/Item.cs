@@ -2,7 +2,7 @@
 
 namespace  ninja.marching.flatstates
 {
-	public class Item:IBindable<Item>
+	public class Item:Bindable<Item>
 	{
 		public readonly string Identifier;
 
