@@ -8,7 +8,9 @@ using System.Collections.Generic;
 using FlatStates.Scripts;
 using ninja.marching.flatstates;
 
-public class ChestTest{
+public class ChestTest
+{
+
 
 
     [Test]
@@ -17,18 +19,13 @@ public class ChestTest{
         //Arrange
 		InMemoryState state = new InMemoryState ();
         ReactiveStateDecorator container = new ReactiveStateDecorator(state);
-
-		Container chest = new Container("chest01", "Weapons Chest");
-		chest.TermDispatcher.Subscribe (container.ChangeListener );
-
+        
 		Weapon sword = new Weapon ("weapon01","Iron Sword", 10);
-		sword.TermDispatcher.Subscribe (container.ChangeListener);
-		sword.Broadcast();
-
 		Item shield = new Item ("shield01","Wooden Roundshield", 3);
-
-		chest.AddItem (sword);
-		chest.AddItem (shield);
+        
+        Container chest = new Container("chest01", "Weapons Chest");
+        container.Add( new ContainsItem(chest, sword));
+        container.Add( new ContainsItem(chest, shield));
 
 		List<Axiom> queryPredicates = new List<Axiom> ();
 		queryPredicates.Add (new ContainsItem ("?ChestToFind", sword));
@@ -58,27 +55,20 @@ public class ChestTest{
 		InMemoryState state = new InMemoryState ();
         ReactiveStateDecorator container = new ReactiveStateDecorator(state);
 
-        Container chest = new Container("chest01","Weapons Chest");
-		chest.TermDispatcher.Subscribe (container.ChangeListener );
-
 		Weapon sword = new Weapon ("weapon01","Iron Sword", 10);
-		sword.TermDispatcher.Subscribe (container.ChangeListener);
-		sword.Broadcast();
-
-		Weapon sword2 = new Weapon ("weapon02","Silver Sword", 10);
-		sword2.TermDispatcher.Subscribe (container.ChangeListener);
-		sword2.Broadcast();
-
-		Item shield = new Item ("shield01","Wooden Roundshield", 3);
-
-		chest.AddItem (sword);
-		chest.AddItem (sword2);
-		chest.AddItem (shield);
+        container.Add(new IsWeapon(sword));
+        Weapon sword2 = new Weapon ("weapon02","Silver Sword", 10);
+        container.Add(new IsWeapon(sword2));
+        Item shield = new Item ("shield01","Wooden Roundshield", 3);
+        
+        Container chest = new Container("chest01", "Weapons Chest");
+        container.Add(new ContainsItem(chest, sword));
+        container.Add(new ContainsItem(chest, sword2));
+        container.Add(new ContainsItem(chest, shield));
 
 		List<Axiom> queryPredicates = new List<Axiom> ();
-		var itemToFind = new Variable<Item> ("ItemToFind");
-		queryPredicates.Add (new ContainsItem (chest, itemToFind));
-		queryPredicates.Add (new IsWeapon (itemToFind) );
+        queryPredicates.Add (new ContainsItem (chest, "?ItemToFind"));
+		queryPredicates.Add (new IsWeapon ("?ItemToFind") );
 
 		List<List<Substitution>> subset;
 		if (Unification.Query (container, queryPredicates, out subset)) {

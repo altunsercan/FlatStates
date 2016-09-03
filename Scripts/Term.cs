@@ -96,7 +96,7 @@ namespace ninja.marching.flatstates
 
 		public override string ToString ()
 		{
-			return ""+ValueObject;
+			return "t_"+ValueObject;
 		}
 
 		public static bool operator ==(Term x, Term y)
@@ -105,8 +105,16 @@ namespace ninja.marching.flatstates
 			{
 				return object.ReferenceEquals(x, null) && object.ReferenceEquals(y, null) ;
 			}
-			 
-			return x.ValueObject == y.ValueObject;
+
+		    if (x.internalStatus == STATUS.UNBOUND && y.internalStatus == STATUS.UNBOUND)
+		    {
+		        Variable xVar = x.ValueObject as Variable;
+                Variable yVar = y.ValueObject as Variable;
+
+                return xVar == yVar;
+            }
+
+            return x.ValueObject == y.ValueObject;
 		}
 
 		public static bool operator !=(Term x, Term y)
@@ -159,6 +167,11 @@ namespace ninja.marching.flatstates
         public string UniqueID
         {
             get { return _identifier; }
+        }
+
+        public override string ToString()
+        {
+            return string.Format("p_Bind([{0}]{1})", typeof(T).Name, _identifier);
         }
     }
 }

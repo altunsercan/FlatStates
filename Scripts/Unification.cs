@@ -22,7 +22,7 @@ namespace FlatStates.Scripts
 
             substitutionsAdded.ForEach(delegate (Substitution subToApply) {
                 currentTerm = ApplySubstitution(currentTerm, subToApply);
-            });
+            }); 
 
             var stateTerms = state.AllAxiomsByName(currentTerm.Name);
             while (stateTerms.MoveNext())

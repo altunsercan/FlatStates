@@ -21,7 +21,7 @@ namespace ninja.marching.flatstates
 
 		public override string ToString ()
 		{
-			return string.Format("Bind([{0}]{1})", ValueType.Name, Identifier );
+			return string.Format("v_Bind([{0}]{1})", ValueType.Name, Identifier );
 		}
 
 		#region IIdentifiable implementation
@@ -32,9 +32,27 @@ namespace ninja.marching.flatstates
 			}
 		}
 
-		#endregion
+        #endregion
 
-	}
+        public static bool operator ==(Variable x, Variable y)
+        {
+            if (object.ReferenceEquals(x, null) || object.ReferenceEquals(y, null))
+            {
+                return object.ReferenceEquals(x, null) && object.ReferenceEquals(y, null);
+            }
+
+            if (x.ValueType != y.ValueType)
+            {
+                return false;
+            }
+            
+            return x.UniqueID == y.UniqueID;
+        }
+        public static bool operator !=(Variable x, Variable y)
+        {
+            return !(x == y);
+        }
+    }
 
 	public class Variable<T>: Variable, Bindable<T>
 	{
@@ -42,7 +60,26 @@ namespace ninja.marching.flatstates
 		public Variable (string identifier):base( typeof(T), identifier)
 		{
 		}
-        
+
+        public static bool operator ==(Variable<T> x, Variable<T> y)
+        {
+            if (object.ReferenceEquals(x, null) || object.ReferenceEquals(y, null))
+            {
+                return object.ReferenceEquals(x, null) && object.ReferenceEquals(y, null);
+            }
+
+            return x.UniqueID == y.UniqueID;
+        }
+
+        public static bool operator !=(Variable<T> x, Variable<T> y)
+        {
+            return !(x == y);
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }
 
