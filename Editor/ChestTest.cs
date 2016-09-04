@@ -10,9 +10,7 @@ using ninja.marching.flatstates;
 
 public class ChestTest
 {
-
-
-
+    
     [Test]
 	public void FindChestsWithItem()
     {

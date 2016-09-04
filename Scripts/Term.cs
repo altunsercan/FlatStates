@@ -50,7 +50,7 @@ namespace ninja.marching.flatstates
 			Substitution sub;
 			switch (other.Status) {
 			case STATUS.BOUND:
-				if (other.ValueObject == this.ValueObject) {
+				if (other.ValueObject.UniqueID == this.ValueObject.UniqueID) {
 					sub = new Substitution ();
 					sub.original = this;
 					sub.substituted = null;
@@ -78,7 +78,7 @@ namespace ninja.marching.flatstates
 				break;
 
 			case STATUS.UNBOUND:
-				if (other.ValueObject == this.ValueObject) {
+				if (other.ValueObject.UniqueID == this.ValueObject.UniqueID) {
 					sub = new Substitution ();
 					sub.original = this;
 					sub.substituted = null;
@@ -112,6 +112,9 @@ namespace ninja.marching.flatstates
                 Variable yVar = y.ValueObject as Variable;
 
                 return xVar == yVar;
+            }else if (x.internalStatus == STATUS.BOUND && y.internalStatus == STATUS.BOUND)
+            {
+                return x.ValueObject.UniqueID == y.ValueObject.UniqueID;
             }
 
             return x.ValueObject == y.ValueObject;
