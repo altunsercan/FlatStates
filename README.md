@@ -1,3 +1,5 @@
+*This project is licensed under MIT License*
+
 # FlatStates
 Unity3d implementation for keeping states as predicates
 
