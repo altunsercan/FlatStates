@@ -1,8 +1,9 @@
 ﻿using System;
+using FlatStates.Example.Types;
 
 namespace ninja.marching.flatstates
 {
-	public class NPC: Bindable<NPC>
+	public class NPC: Bindable<NPC>, Cursable
     {
         public readonly string Identifier;
 

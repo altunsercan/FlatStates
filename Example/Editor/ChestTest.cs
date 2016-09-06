@@ -5,6 +5,7 @@ using NUnit.Framework;
 using System;
 
 using System.Collections.Generic;
+using System.Linq;
 using FlatStates.Scripts;
 using ninja.marching.flatstates;
 
@@ -42,7 +43,7 @@ public class ChestTest
 			Debug.Log (str);
 		}
 
-		Assert.AreNotEqual(subset.Count, 0);
+		Assert.AreEqual(subset.Count, 1);
 		Assert.AreEqual (chest,subset [0] [0].substituted.ValueObject);
 	}
 
@@ -82,7 +83,7 @@ public class ChestTest
 			Debug.Log (str);
 		}
 
-		Assert.AreNotEqual(subset.Count, 0);
+		Assert.AreEqual(subset.Count, 2);
 		//Assert.AreEqual (chest,subset [0] [0].substituted.ValueObject);
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FlatStates.Example.Types;
 using ninja.marching.flatstates;
 using UnityEngine;
 
@@ -22,7 +23,12 @@ namespace FlatStates.Scripts
 
             substitutionsAdded.ForEach(delegate (Substitution subToApply) {
                 currentTerm = ApplySubstitution(currentTerm, subToApply);
-            }); 
+            });
+
+            if (currentTerm == null)
+            {
+                return;
+            }
 
             var stateTerms = state.AllAxiomsByName(currentTerm.Name);
             while (stateTerms.MoveNext())
@@ -42,9 +48,7 @@ namespace FlatStates.Scripts
                 List<Substitution> updatedSubstitutionsAdded = new List<Substitution>();
                 updatedSubstitutionsAdded.AddRange(substitutionsAdded);
                 updatedSubstitutionsAdded.AddRange(substitution);
-
-                // TODO: Apply substitiutions to the rest of the terms so they won't be unified again
-
+                
                 if (updatedTermsToSearch.Count > 0)
                 {
                     Search(state, updatedTermsToSearch, updatedSubstitutionsAdded, solutions);
@@ -62,11 +66,38 @@ namespace FlatStates.Scripts
         { 
             List<object> args = new List<object> ();
             for (int termIndex = 0; termIndex < axiom.Terms.Length; termIndex++) {
+                if (axiom.Terms[termIndex].ValueType == substitution.substituted.ValueType)
+                {
+                    if (substitution.original == axiom.Terms[termIndex])
+                    {
+                        args.Add(substitution.substituted);
+                    }
+                    else {
+                        args.Add(axiom.Terms[termIndex]);
+                    }
+                }
+                else if (axiom.Terms[termIndex].ValueType.IsAssignableFrom(substitution.substituted.ValueType))
+                {
+                    Bindable bindable = substitution.substituted.ValueObject;
+                    if( bindable.GetType() == (typeof(BindableIdentityProxy<>).MakeGenericType(substitution.substituted.ValueType)) )
+                    {
+                        /* 
+                        typeof(BindableIdentityProxy<>)
+                            .MakeGenericType(axiom.Terms[termIndex].ValueType)
+                        */
+                        bindable = (Bindable)Activator.CreateInstance(typeof(BindableIdentityProxy<>)
+                            .MakeGenericType(axiom.Terms[termIndex].ValueType), substitution.substituted.ValueObject.UniqueID);
 
-                if (substitution.original == axiom.Terms [termIndex]) {
-                    args.Add ( substitution.substituted );
+                        Term term = (Term) Activator.CreateInstance( typeof(Term<>)
+                            .MakeGenericType(axiom.Terms[termIndex].ValueType), bindable );
+                        args.Add(term);
+                    }
+                    else
+                    {
+                        args.Add(bindable);
+                    }
                 } else {
-                    args.Add ( axiom.Terms [termIndex] );
+                    args.Add(axiom.Terms[termIndex]);
                 }
 
             }

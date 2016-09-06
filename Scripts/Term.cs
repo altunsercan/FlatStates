@@ -129,7 +129,7 @@ namespace ninja.marching.flatstates
 
 	public class Term<T>:Term where T:Bindable<T>
     {
-		public Term(Bindable<T> value):base(typeof(Bindable<T>), value)
+		public Term(Bindable<T> value):base(typeof(T), value)
 		{
 		}
 
@@ -147,7 +147,7 @@ namespace ninja.marching.flatstates
 
             return new Term<T>(identifier);
         }
-
+        
         public static implicit operator Term<T>(T bindable)
         {
             return new Term<T>(bindable);

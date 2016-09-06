@@ -1,14 +1,15 @@
 ﻿
 using System;
+using FlatStates.Example.Types;
 
 namespace ninja.marching.flatstates
 {
     public class IsCursed : Axiom
     {
-        public readonly Term<NPC> NPC;
-        public IsCursed(Term<NPC> npc) : base ("IsCursed", npc)
+        public readonly Term<Cursable> Cursable;
+        public IsCursed(Term<Cursable> cursable) : base ("IsCursed", cursable)
 		{
-            NPC = npc;
+            Cursable = cursable;
         }
     }
 }
