@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using FlatStates.Example.Types;
 using ninja.marching.flatstates;
 using UnityEngine;
 
