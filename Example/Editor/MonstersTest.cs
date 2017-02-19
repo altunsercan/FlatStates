@@ -5,7 +5,6 @@ using NUnit.Framework;
 using System;
 
 using System.Collections.Generic;
-using Castle.Core.Internal;
 using FlatStates.Example.Axioms;
 using FlatStates.Scripts;
 using ninja.marching.flatstates;
@@ -21,11 +20,11 @@ public class MonstersTest
         string[] monster = new[] {"Cursed Crocodile", "Goblin Berserker", "Ancient Golem", "Cursed Elf"};
         string[] weapon = new[] {"Cursed Sword", "Old Mans Socks", "Hammer of Doom", "Cursed Spear of Light"};
         
-        monster.ForEach( _ => state.Add(new IsMonster(_)));
-        monster.ForEach( _ => { if(_.StartsWith("Cursed")) state.Add(new IsCursed(_)); });
+        Array.ForEach(monster, _ => state.Add(new IsMonster(_)));
+        Array.ForEach(monster, _ => { if(_.StartsWith("Cursed")) state.Add(new IsCursed(_)); });
 
-        weapon.ForEach(_ => state.Add(new IsWeapon(_)));
-        weapon.ForEach(_ => { if (_.StartsWith("Cursed")) state.Add(new IsCursed(_)); });
+        Array.ForEach(weapon, _ => state.Add(new IsWeapon(_)));
+        Array.ForEach(weapon, _ => { if (_.StartsWith("Cursed")) state.Add(new IsCursed(_)); });
 
         List<Axiom> queryPredicates = new List<Axiom>();
         queryPredicates.Add(new IsMonster("?CursedMonster"));
@@ -56,11 +55,11 @@ public class MonstersTest
         string[] monster = new[] { "Cursed Crocodile", "Goblin Berserker", "Ancient Golem", "Cursed Elf" };
         string[] weapon = new[] { "Cursed Sword", "Old Mans Socks", "Hammer of Doom", "Cursed Spear of Light" };
 
-        monster.ForEach(_ => state.Add(new IsMonster(_)));
-        monster.ForEach(_ => { if (_.StartsWith("Cursed")) state.Add(new IsCursed(_)); });
+        Array.ForEach(monster, _ => state.Add(new IsMonster(_)));
+        Array.ForEach(monster, _ => { if (_.StartsWith("Cursed")) state.Add(new IsCursed(_)); });
 
-        weapon.ForEach(_ => state.Add(new IsWeapon(_)));
-        weapon.ForEach(_ => { if (_.StartsWith("Cursed")) state.Add(new IsCursed(_)); });
+        Array.ForEach(weapon, _ => state.Add(new IsWeapon(_)));
+        Array.ForEach(weapon, _ => { if (_.StartsWith("Cursed")) state.Add(new IsCursed(_)); });
 
         state.Add(new InInventory("Goblin Berserker", "Cursed Sword"));
         state.Add(new InInventory("Cursed Corcodile", "Old Mans Socks"));
