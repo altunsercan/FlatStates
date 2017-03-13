@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace FlatStates.Scripts
 {
+    using System.Linq;
+
     public class Unification
     {
         public static bool Query(State state, List<Axiom> terms, out List<List<Substitution>> solutions)
@@ -101,7 +103,16 @@ namespace FlatStates.Scripts
 
             }
 
-            return (Axiom)Activator.CreateInstance(axiom.GetType (), args.ToArray ());
+            Type createdAxiomType = axiom.GetType();
+            if (createdAxiomType.IsSubclassOf(typeof(Axiom)))
+            {
+                return (Axiom)Activator.CreateInstance(createdAxiomType, args.ToArray());
+            }
+
+            Term[] terms = new Term[args.Count];
+            args.CopyTo(terms);
+            
+            return new Axiom(axiom.Name, terms);
         }
 
         public static List<Substitution> Unify( Axiom p1, Axiom p2 )
