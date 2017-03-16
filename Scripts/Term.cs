@@ -125,6 +125,20 @@ namespace ninja.marching.flatstates
 			return !(x == y);
 		}
 
+	    public override bool Equals(object obj)
+	    {
+	        if (!(obj is Term))
+	        {
+	            return false;
+	        }
+	        Term other = (Term)obj;
+	        return this == other;
+	    }
+
+	    public override int GetHashCode()
+	    {
+	        return ValueType.GetHashCode() + ValueObject.UniqueID.GetHashCode();
+	    }
 	}
 
 	public class Term<T>:Term where T:Bindable<T>

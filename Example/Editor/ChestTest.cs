@@ -11,7 +11,31 @@ using ninja.marching.flatstates;
 
 public class ChestTest
 {
-    
+    [Test]
+    public void AxiomEqualitySameIdentifier()
+    {
+        AxiomEqualityComparer comparer = new AxiomEqualityComparer();
+
+        Axiom ax = new Axiom("axiomName", (Term<Item>)new Weapon("TestWeapon", "Hoba", 1), (Term<Item>)new Item("TestShield","Hebe",1) );
+        
+        Axiom ax2 = new Axiom("axiomName", (Term<Item>)new Weapon("TestWeapon", "Hoba", 1), (Term<Item>)new Item("TestShield", "Hebe", 1));
+
+        Assert.IsTrue(comparer.Equals(ax, ax2));
+    }
+
+    [Test]
+    public void AxiomEqualityDifferentIdentifier()
+    {
+        AxiomEqualityComparer comparer = new AxiomEqualityComparer();
+
+        Axiom ax = new Axiom("axiomName", (Term<Item>)new Weapon("TestWeapon", "Hoba", 1), (Term<Item>)new Item("TestShield", "Hebe", 1));
+
+        Axiom ax2 = new Axiom("axiomName", (Term<Item>)new Weapon("TestWeaponDif", "Hobale", 1), (Term<Item>)new Item("TestShield", "Hebelö", 1));
+
+        Assert.IsFalse(comparer.Equals(ax, ax2));
+    }
+
+
     [Test]
 	public void FindChestsWithItem()
     {
