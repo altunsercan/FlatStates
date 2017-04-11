@@ -19,7 +19,11 @@ namespace ninja.marching.flatstates
 			ValueType = valueType;
 		}
 
-		public override string ToString ()
+	    public abstract Term ToTerm();
+
+        public abstract Variable CreateVariableOfSameType(string identifier);
+
+        public override string ToString ()
 		{
 			return string.Format("v_Bind([{0}]{1})", ValueType.Name, Identifier );
 		}
@@ -52,14 +56,27 @@ namespace ninja.marching.flatstates
         {
             return !(x == y);
         }
+        
+
     }
 
-	public class Variable<T>: Variable, Bindable<T>
+	public class Variable<T>: Variable, Bindable<T> where T:Bindable<T>
 	{
 		
 		public Variable (string identifier):base( typeof(T), identifier)
 		{
 		}
+
+	    public override Term ToTerm()
+	    {
+	        return new Term<T>(this);
+	    }
+
+	    public override Variable CreateVariableOfSameType(string identifier)
+	    {
+	        return new Variable<T>(identifier);
+	    }
+
 
         public static bool operator ==(Variable<T> x, Variable<T> y)
         {

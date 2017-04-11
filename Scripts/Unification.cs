@@ -131,7 +131,7 @@ namespace FlatStates.Scripts
 
                 var sub = p1.Terms [termIndex].Unify (p2.Terms [termIndex]);
 
-                Debug.Log ("σ:" + sub.original + " " + sub.substituted);
+                //Debug.Log ("σ:" + sub.original + " " + sub.substituted);
 
                 if (sub == default(Substitution)) {
                     return null;
