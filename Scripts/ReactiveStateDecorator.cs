@@ -53,6 +53,11 @@ namespace ninja.marching.flatstates
         {
             return _decorated.Has(axiom);
         }
+        
+        public IEnumerator<Axiom> AllAxioms()
+        {
+            return _decorated.AllAxioms();
+        }
 
         public IEnumerator<Axiom> AllAxiomsByName(string axiomName)
         {

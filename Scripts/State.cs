@@ -7,7 +7,8 @@ namespace ninja.marching.flatstates
         void Add(Axiom axiom);
         bool Remove(Axiom axiom);
         bool Has(Axiom axiom);
-        
+
+        IEnumerator<Axiom> AllAxioms();
         IEnumerator<Axiom> AllAxiomsByName(string axiomName);
     }
 }

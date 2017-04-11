@@ -9,8 +9,7 @@ namespace ninja.marching.flatstates
 	{
 		private HashSet<Axiom> stateList;
 		private ILookup<string, Axiom> axiomNameLookup;
-
-
+        
 		public InMemoryState ()
 		{
 			stateList = new HashSet<Axiom>(new AxiomEqualityComparer());
@@ -33,6 +32,12 @@ namespace ninja.marching.flatstates
         public bool Has(Axiom axiom)
         {
             return stateList.Contains(axiom);
+        }
+
+
+        public IEnumerator<Axiom> AllAxioms()
+        {
+            return stateList.GetEnumerator();
         }
 
         public IEnumerator<Axiom> AllAxiomsByName(string axiomName)
