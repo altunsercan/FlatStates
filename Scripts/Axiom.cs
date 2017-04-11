@@ -7,7 +7,9 @@ using System.Collections.Generic;
 
 
 namespace ninja.marching.flatstates{
-	public class Axiom {
+    using System.Linq;
+
+    public class Axiom {
 
 		public readonly string Name;
 		public readonly Term[] Terms;
@@ -21,13 +23,10 @@ namespace ninja.marching.flatstates{
 
 	    public override string ToString ()
 		{
-			string str = "";		
-			Array.ForEach<Term> (Terms, delegate(Term obj) {
-				str += obj + ", ";
-			});
-
+			string str = string.Join(",", Terms.Select(_ => _.ToString()).ToArray());
+            
 			return string.Format ("{0} -> {1}", Name, str );
 		}
-
-	}
+    
+    }
 }
