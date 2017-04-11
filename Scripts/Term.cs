@@ -171,6 +171,17 @@ namespace ninja.marching.flatstates
         {
             return new Term<T>(variable);
         }
+
+
+        public static implicit operator Term<T>(Variable variable) 
+        {
+            if (variable.GetValueType().IsSubclassOf(typeof(T)))
+            {
+                return new Term<T>(new Variable<T>(variable.UniqueID));
+            }
+            return null;
+        }
+
     }
 
     public class BindableIdentityProxy<T>:Bindable<T> where T : Identifiable,Bindable<T>
